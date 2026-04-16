@@ -10,27 +10,71 @@ Este repositorio contiene el **sistema técnico** para generar y validar los có
 
 ## ⚠️ SEGURIDAD - Archivos que NO se suben al repo
 
-**NUNCA subir estos archivos a GitHub (están en `.gitignore`):**
+**NUNCA subir estas carpetas a GitHub:**
 
-| Archivo | Razón |
-|---------|-------|
-| `tokens.db` | Contiene todos los tokens generados con estados |
-| `tokens_batch.json` | URLs funcionales de producción |
-| `.env` | Variables de entorno con SECRET_KEY |
-| `*.pem`, `*.key` | Claves privadas |
-| `passwords.txt` | Credenciales |
+| Carpeta | Contenido |
+|---------|-----------|
+| `data/` | tokens.db, tokens_batch.json |
+| `config/` | .env, _CLAVES_CONFIDENCIAL.txt |
+
+---
+
+## Estructura del proyecto
+
+```
+CAMPA-A_M-RKETING_DUNE/
+│
+├── 📄 README.md                          ← Este archivo
+├── 📄 .gitignore                        ← Archivos excluidos
+│
+├── 📁 docs/                             ← Documentación de campaña
+│   ├── CIUDAD_SECRETA_v2.txt
+│   ├── CIUDAD_SECRETA_v2.pdf
+│   ├── CAMPAÑA_MARKETING.txt
+│   └── campaña_marketing_optimizada.docx
+│
+├── 📁 src/                              ← Código fuente
+│   ├── server.py                        ← Servidor FastAPI
+│   ├── token_system.py                  ← CLI para tokens
+│   ├── generate_qr.py                   ← Generador de QRs
+│   └── regenerate_with_real_tokens.py   ← Regenerador con claves reales
+│
+├── 📁 assets/qr/                       ← Códigos QR generados
+│   ├── barcelona/
+│   │   ├── QR_BARCELONA_01.png ... 10
+│   ├── madrid/
+│   │   ├── QR_MADRID_01.png ... 10
+│   ├── valencia/
+│   │   ├── QR_VALENCIA_01.png ... 10
+│   └── gigante/
+│       ├── QR_GIGANTE_MADRID.png
+│       ├── QR_GIGANTE_BARCELONA.png
+│       └── QR_GIGANTE_VALENCIA.png
+│
+├── 📁 data/                             ← DATOS SENSIBLES (NO SUBIR)
+│   ├── .gitkeep
+│   ├── tokens.db                        ← Base de datos SQLite
+│   └── tokens_batch.json                ← Tokens exportados
+│
+└── 📁 config/                           ← CONFIGURACIÓN (NO SUBIR)
+    ├── .gitkeep
+    ├── .env.example                     ← Plantilla
+    ├── .env                             ← Variables de entorno
+    └── _CLAVES_CONFIDENCIAL.txt         ← Claves secretas
+```
 
 ---
 
 ## 🔐 Configuración de seguridad
 
-### 1. Crear archivo `.env`
+### 1. Archivos de configuración
 
 Copiar `.env.example` a `.env`:
 
 ```bash
-cd QR_CODES
+cd config
 cp .env.example .env
+# Editar .env y añadir SECRET_KEY
 ```
 
 ### 2. Generar SECRET_KEY
@@ -46,69 +90,38 @@ import secrets
 print(secrets.token_hex(32))
 ```
 
-### 3. Editar `.env`
-
-```env
-SECRET_KEY=TU_CLAVE_GENERADA_AQUI
-ENV=development
-```
-
-### 4. IMPORTANTE
+### 3. IMPORTANTE
 
 La `SECRET_KEY` debe ser **la misma** en:
-- `server.py` (servidor)
-- `token_system.py` (CLI)
-- `.env` (configuración)
+- `src/server.py` (servidor)
+- `src/token_system.py` (CLI)
+- `config/.env` (configuración)
 
 Si cambias la clave, los tokens existentes dejarán de funcionar.
-
----
-
-## Estructura del proyecto
-
-```
-CAMPAÑA_MÁRKETING/
-│
-├── 📄 CIUDAD_SECRETA_v2.txt              ← Documento estratégico
-├── 📄 CIUDAD_SECRETA_v2.pdf              ← Versión PDF
-│
-└── 📁 QR_CODES/                          ← Sistema técnico
-    │
-    ├── 📄 README.md                       ← Este archivo
-    ├── 📄 .gitignore                      ← Archivos excluidos del repo
-    ├── 📄 .env.example                    ← Plantilla de configuración
-    │
-    ├── 📄 server.py                       ← Servidor FastAPI
-    ├── 📄 token_system.py                 ← CLI para tokens
-    ├── 📄 generate_qr.py                  ← Generador de QRs
-    │
-    ├── 📄 tokens.db                       ← Base de datos (NO SUBIR)
-    ├── 📄 tokens_batch.json               ← Tokens exportados (NO SUBIR)
-    │
-    ├── QR_MADRID_01.png ... 10           ← QRs Madrid
-    ├── QR_BARCELONA_01.png ... 10        ← QRs Barcelona
-    ├── QR_VALENCIA_01.png ... 10          ← QRs Valencia
-    ├── QR_GIGANTE_*.png                   ← QRs 2m x 2m
-    │
-    └── 📁 .git/                           ← (no incluir)
-```
 
 ---
 
 ## Instalación
 
 ```bash
-cd QR_CODES
+# Clonar repositorio
+git clone https://github.com/RRCarlos/CAMPA-A_M-RKETING_DUNE.git
+cd CAMPA-A_M-RKETING_DUNE
+
+# Crear carpeta data (para tokens.db y tokens_batch.json)
+mkdir -p data
+
+# Crear carpeta config (para .env)
+mkdir -p config
+cp config/.env.example config/.env
 
 # Instalar dependencias
 pip install fastapi uvicorn[standard] qrcode pillow python-dotenv
 
-# Configurar variables de entorno
-cp .env.example .env
-# Editar .env y añadir SECRET_KEY
+# Editar config/.env y añadir SECRET_KEY
 
 # Iniciar servidor
-python server.py
+python src/server.py
 ```
 
 ---
@@ -118,7 +131,7 @@ python server.py
 ### Servidor API
 
 ```bash
-python server.py
+python src/server.py
 # Disponible en: http://localhost:8000
 # Documentación: http://localhost:8000/docs
 ```
@@ -127,19 +140,19 @@ python server.py
 
 ```bash
 # Ver ayuda
-python token_system.py --help
+python src/token_system.py --help
 
 # Ver estadísticas
-python token_system.py stats
+python src/token_system.py stats
 
 # Generar nuevos tokens
-python token_system.py generate -c MAD -n 10
+python src/token_system.py generate -c MAD -n 10
 
 # Validar token
-python token_system.py validate <token>
+python src/token_system.py validate <token>
 
 # Marcar token como usado
-python token_system.py validate <token> --use --user usuario_123
+python src/token_system.py validate <token> --use --user usuario_123
 ```
 
 ---
@@ -160,17 +173,17 @@ python token_system.py validate <token> --use --user usuario_123
 
 ## Tokens existentes
 
-Se han generado **30 tokens** (10 por ciudad) que están en `tokens_batch.json`.
+Se han generado **30 tokens** (10 por ciudad) que están en `data/tokens_batch.json`.
 
 Los tokens actuales usan una SECRET_KEY temporal. Para regenerarlos con la clave definitiva:
 
 ```bash
-# 1. Configurar SECRET_KEY en .env
+# 1. Configurar SECRET_KEY en config/.env
 # 2. Regenerar tokens
-python token_system.py batch --per-city 10
+python src/token_system.py batch --per-city 10
 
 # 3. Regenerar QRs
-python regenerate_with_real_tokens.py
+python src/regenerate_with_real_tokens.py
 ```
 
 ---
@@ -178,16 +191,16 @@ python regenerate_with_real_tokens.py
 ## Códigos QR
 
 ### Estándar (10 por ciudad)
-- `QR_MADRID_01.png` ... `QR_MADRID_10.png`
-- `QR_BARCELONA_01.png` ... `QR_BARCELONA_10.png`
-- `QR_VALENCIA_01.png` ... `QR_VALENCIA_10.png`
+- `assets/qr/madrid/QR_MADRID_01.png` ... `QR_MADRID_10.png`
+- `assets/qr/barcelona/QR_BARCELONA_01.png` ... `QR_BARCELONA_10.png`
+- `assets/qr/valencia/QR_VALENCIA_01.png` ... `QR_VALENCIA_10.png`
 
 **Tamaño:** 800x800 px (~10cm a 200dpi)
 
 ### Gigantes (Launch Day)
-- `QR_GIGANTE_MADRID.png`
-- `QR_GIGANTE_BARCELONA.png`
-- `QR_GIGANTE_VALENCIA.png`
+- `assets/qr/gigante/QR_GIGANTE_MADRID.png`
+- `assets/qr/gigante/QR_GIGANTE_BARCELONA.png`
+- `assets/qr/gigante/QR_GIGANTE_VALENCIA.png`
 
 **Tamaño:** 4000x4000 px (2m x 2m a 200dpi)
 
@@ -223,6 +236,7 @@ pip install fastapi uvicorn[standard] qrcode pillow python-dotenv gunicorn
 # Configurar DNS: cs.mad, cs.bcn, cs.vlc -> IP del servidor
 
 # Iniciar con gunicorn
+cd src
 gunicorn -w 4 -k uvicorn.workers.UvicornWorker server:app --bind 0.0.0.0:8000
 ```
 
@@ -231,7 +245,7 @@ gunicorn -w 4 -k uvicorn.workers.UvicornWorker server:app --bind 0.0.0.0:8000
 ```bash
 # Definir variable de entorno ANTES de iniciar
 export SECRET_KEY="TU_CLAVE_SEGURA_DE_64_CARACTERES"
-python server.py
+python src/server.py
 ```
 
 ---
