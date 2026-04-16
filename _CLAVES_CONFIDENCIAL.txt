@@ -1,0 +1,120 @@
+# ⚠️ DOCUMENTO CONFIDENCIAL - NO SUBIR A GITHUB ⚠️
+# ================================================
+# 
+# Este archivo CONTIENE CLAVES SECRETAS.
+# Mantener en lugar seguro y NUNCA subir a repositorios públicos.
+#
+# Ubicación sugerida: Gestión de contraseñas / Vault / OneDrive privado
+#
+
+═══════════════════════════════════════════════════════════════════════════════
+                        CLAVES Y CREDENCIALES
+                        CIUDAD SECRETA v2
+═══════════════════════════════════════════════════════════════════════════════
+
+--------------------------------------------------------------------------------
+SECRET_KEY (tokens HMAC-SHA256)
+--------------------------------------------------------------------------------
+
+Valor actual:
+50f26ccd654feede258423d3a73357d3641975a01e08cd8dd05d8860276f3bfb
+
+Descripción:
+- Clave para generar y validar tokens QR
+- Usada en: server.py y token_system.py
+- DEBE ser la misma en todos los entornos
+
+Para regenerar:
+    openssl rand -hex 32
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+BASE DE DATOS
+--------------------------------------------------------------------------------
+
+Archivo: QR_CODES/tokens.db
+Ruta completa: C:\Users\PC\OneDrive\Desktop\CAMPAÑA_MÁRKETING\QR_CODES\tokens.db
+
+Contiene:
+- 30 tokens generados (10 por ciudad)
+- Estados: activo, usado, expirado
+- Timestamps de creación y uso
+
+⚠️ NUNCA subir tokens.db a GitHub
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+TOKENS ACTIVOS
+--------------------------------------------------------------------------------
+
+Madrid (cs.mad):
+  1. d2b635361a9ef669
+  2. 6484506623f0f292
+  3. 5d9936ea771d311c
+  4. aa26b05684ba2ed5
+  5. 384f713c44252f7e
+  6. 614fd637263c0b22
+  7. 9c9c9f1ed8240496
+  8. 5955da5f5697fed7
+  9. bae31b7fa1dd7f13
+  10. 47f52d150d291fea
+
+Barcelona (cs.bcn):
+  1. 425d6130f89a9232
+  2. cd21bc511393b707
+  3. e60e5ad4aab61e2b
+  4. caa09fb2ab8d9aa0
+  5. fcb687986e52a1f7
+  6. bdd9bf8479342191
+  7. 1163ef01f146f68f
+  8. c5170edffbca1ec2
+  9. ead90989633cad26
+  10. ba0182265f2e6c15
+
+Valencia (cs.vlc):
+  1. f7d1db8c165f8030
+  2. b1f082725356bb50
+  3. d8b87359a171c933
+  4. 5ad7e9c2f77a81b6
+  5. 2464b1669304c099
+  6. e5019c66a7de456a
+  7. dcbd778edff3f63e
+  8. 43ddee86b6de35a4
+  9. cc12a4f1b71b3410
+  10. b552364a220ae235
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+VARIABLES DE ENTORNO (.env)
+--------------------------------------------------------------------------------
+
+SECRET_KEY=50f26ccd654feede258423d3a73357d3641975a01e08cd8dd05d8860276f3bfb
+ENV=development
+PORT=8000
+DEBUG=true
+
+--------------------------------------------------------------------------------
+
+═══════════════════════════════════════════════════════════════════════════════
+                           NOTAS DE SEGURIDAD
+═══════════════════════════════════════════════════════════════════════════════
+
+1. Este documento contiene las CLAVES REALES de producción.
+2. Guardar en: gestor de contraseñas, vault, o ubicación segura.
+3. NUNCA subir a GitHub ni a repositorios públicos.
+4. Si las claves se filtran, regenerar inmediatamente:
+   - Generar nueva SECRET_KEY
+   - Regenerar todos los tokens
+   - Regenerar todos los QRs
+   - Actualizar este documento
+
+5. Acceso restringido a:
+   - Desarrolladores con acceso al servidor de producción
+   - Administradores del sistema
+
+═══════════════════════════════════════════════════════════════════════════════
+
+Última actualización: 2026-04-16
