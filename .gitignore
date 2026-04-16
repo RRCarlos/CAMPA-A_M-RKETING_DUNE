@@ -1,7 +1,102 @@
-# Archivos sensibles - NO SUBIR A GITHUB
-_CLAVES_CONFIDENCIAL.txt
-*CLAVES*
-*secrets*
-*.key
-*.pem
+# CIUDAD SECRETA - Archivos que NO se suben a GitHub
+# Estos archivos contienen datos sensibles
+
+# ============================================================
+# BASE DE DATOS (NUNCA SUBIR)
+# ============================================================
+
+# Base de datos SQLite con tokens y estados
+tokens.db
+*.db
+
+# Backup de base de datos
+*.db.backup
+*.sqlite
+*.sqlite3
+
+# ============================================================
+# TOKENS Y CLAVES (NUNCA SUBIR)
+# ============================================================
+
+# Lista de tokens generados (contiene URLs funcionales)
+tokens_batch.json
+
+# Tokens exportados
+tokens_*.json
+export_*.json
+
+# Claves secretas
 .env
+.env.local
+.env.production
+*.pem
+*.key
+secret*
+credentials*
+
+# ============================================================
+# CONFIGURACIÓN LOCAL (NUNCA SUBIR)
+# ============================================================
+
+# Variables de entorno locales
+.env
+
+# Configuración específica del servidor
+config_production.py
+production_config.py
+
+# Logs
+*.log
+logs/
+
+# ============================================================
+# CONTRASEÑAS Y ACCESOS
+# ============================================================
+
+# Archivos con contraseñas
+passwords.txt
+secrets.txt
+creds*
+
+# Archivos .htaccess con credenciales
+.htpasswd
+
+# ============================================================
+# IMÁGENES QR (CONSIDERAR)
+# ============================================================
+
+# Los QRs son públicos una vez impresos, pero si no quieres
+# filtrar qué QRs están activos antes del launch, descomenta:
+
+# QR_CODES/QR_*.png
+# QR_CODES/QR_GIGANTE_*.png
+
+# ============================================================
+# PYTHON
+# ============================================================
+
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+eggs/
+*.egg
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
