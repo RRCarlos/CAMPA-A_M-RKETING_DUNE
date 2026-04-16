@@ -1,0 +1,7 @@
+# Archivos sensibles - NO SUBIR A GITHUB
+_CLAVES_CONFIDENCIAL.txt
+*CLAVES*
+*secrets*
+*.key
+*.pem
+.env
